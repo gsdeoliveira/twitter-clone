@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
+import { Button } from './button'
 
 interface ModalProps {
   isOpen?: boolean
@@ -54,6 +55,15 @@ export const Modal: React.FC<ModalProps> = ({
             </div>
 
             {/* Body */}
+            <div className='relative p-10 flex-auto'>
+              {body}
+            </div>
+              
+              {/* Footer */}
+              <div className='flex-col gap-2 p-10 flex'>
+                <Button disabled={disabled} label={actionLabel} secondary fullWidth large onClick={handleSubmit} />
+                {footer}
+              </div>
           </div>
         </div>
       </div>
