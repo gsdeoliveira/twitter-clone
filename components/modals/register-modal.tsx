@@ -27,6 +27,13 @@ export const RegisterModal = () => {
     }
   }, [RegisterModal])
 
+  const onToggle = useCallback(() => {
+    if(isLoading) return
+
+    RegisterModal.onClose()
+    loginModal.onOpen()
+  }, [isLoading, RegisterModal, loginModal])
+
   const bodyContent = (
     <div className='flex flex-col gap-4'>
       <Input type='email' placeholder='Email'onChange={(e) => setEmail(e.target.value)} value={email} disabled={isLoading} />
@@ -39,7 +46,7 @@ export const RegisterModal = () => {
   const footerContent = (
     <div className='text-neutral-400 text-center mt-4'>
       <p>Already have an account?
-        <span className='text-white cursor-pointer hover:underline'> Sign in</span>
+        <span onClick={onToggle} className='text-white cursor-pointer hover:underline'> Sign in</span>
       </p>
     </div>
   )
