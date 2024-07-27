@@ -1,4 +1,7 @@
-import Link from 'next/link'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { useLoginModal } from '@/hooks/useLoginModal'
+import { useRouter } from 'next/router'
+import { useCallback } from 'react'
 import { IconType } from 'react-icons'
 
 interface SidebarItemProps {
@@ -6,6 +9,7 @@ interface SidebarItemProps {
   href: string
   icon: IconType
   onClick?: () => void
+  auth?: boolean
 }
 
 export const SidebarItem: React.FC<SidebarItemProps> = ({
@@ -13,9 +17,25 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
   href,
   icon: Icon,
   onClick,
+  auth,
 }) => {
+  const loginModal = useLoginModal()
+  const { data: currentUser } = useCurrentUser()
+  const router = useRouter()
+  const handleClick = useCallback(() => {
+    if (onClick) {
+      return onClick()
+    }
+
+    if (auth && !currentUser) {
+      loginModal.onOpen()
+    } else if (href) {
+      router.push(href)
+    }
+  }, [onClick, href, router, currentUser, loginModal, auth])
+
   return (
-    <Link className="flex items-center" onClick={onClick} href={href}>
+    <div className="flex items-center" onClick={handleClick}>
       <div className="relative rounded-full h-14 w-14 flex items-center justify-center p-4 hover:bg-slate-300 hover:bg-opacity-10 cursor-pointer lg:hidden">
         <Icon size={28} color="white" />
       </div>
@@ -24,6 +44,6 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
         <Icon size={24} color="white" />
         <p className="hidden lg:block text-white text-xl">{label}</p>
       </div>
-    </Link>
+    </div>
   )
 }

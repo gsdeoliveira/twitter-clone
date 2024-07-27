@@ -55,15 +55,20 @@ export const Modal: React.FC<ModalProps> = ({
             </div>
 
             {/* Body */}
-            <div className='relative p-10 flex-auto'>
-              {body}
+            <div className="relative p-10 flex-auto">{body}</div>
+
+            {/* Footer */}
+            <div className="flex-col gap-2 p-10 flex">
+              <Button
+                disabled={disabled}
+                label={actionLabel}
+                secondary
+                fullWidth
+                large
+                onClick={handleSubmit}
+              />
+              {footer}
             </div>
-              
-              {/* Footer */}
-              <div className='flex-col gap-2 p-10 flex'>
-                <Button disabled={disabled} label={actionLabel} secondary fullWidth large onClick={handleSubmit} />
-                {footer}
-              </div>
           </div>
         </div>
       </div>
