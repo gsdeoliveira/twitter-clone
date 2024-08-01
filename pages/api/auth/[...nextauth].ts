@@ -37,6 +37,9 @@ export default NextAuth({
           throw new Error('Invalid credentials')
         }
 
+
+        console.log('111', process.env.NEXTAUTH_JWT_SECRET)
+        console.log('222', process.env.NEXTAUTH_SECRET)
         return user
       },
     }),
