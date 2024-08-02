@@ -8,8 +8,8 @@ import { Modal } from '../modal'
 import { Input } from '../input'
 
 export const EditModal = () => {
-  const{data: currentUser} = useCurrentUser()
-  const {mutate: mutateFetchedUser} = useUser(currentUser?.id)
+  const { data: currentUser } = useCurrentUser()
+  const { mutate: mutateFetchedUser } = useUser(currentUser?.id)
   const editModal = useEditModal()
 
   const [profileImage, setProfileImage] = useState('')
@@ -24,20 +24,26 @@ export const EditModal = () => {
     setName(currentUser?.name)
     setUsername(currentUser?.username)
     setBio(currentUser?.bio)
-  }, [currentUser?.profileImage, currentUser?.coverImage, currentUser?.name, currentUser?.username, currentUser?.bio])
+  }, [
+    currentUser?.profileImage,
+    currentUser?.coverImage,
+    currentUser?.name,
+    currentUser?.username,
+    currentUser?.bio,
+  ])
 
   const [isLoading, setIsLoading] = useState(false)
 
   const onSubmit = useCallback(async () => {
     try {
       setIsLoading(true)
-      
+
       await axios.patch('/api/edit', {
         name,
         username,
         bio,
         profileImage,
-        coverImage
+        coverImage,
       })
 
       mutateFetchedUser()
@@ -50,17 +56,51 @@ export const EditModal = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [bio, coverImage, editModal, mutateFetchedUser, name, profileImage, username])
-  
+  }, [
+    bio,
+    coverImage,
+    editModal,
+    mutateFetchedUser,
+    name,
+    profileImage,
+    username,
+  ])
+
   const bodyContent = (
-    <div className='flex flex-col gap-4'>
-      <Input type='text' placeholder='Name' onChange={(e) => setName(e.target.value)}  value={name} disabled={isLoading} />
-      <Input type='text' placeholder='Username' onChange={(e) => setUsername(e.target.value)}  value={username} disabled={isLoading} />
-      <Input type='text' placeholder='Bio' onChange={(e) => setBio(e.target.value)}  value={bio} disabled={isLoading} />
+    <div className="flex flex-col gap-4">
+      <Input
+        type="text"
+        placeholder="Name"
+        onChange={(e) => setName(e.target.value)}
+        value={name}
+        disabled={isLoading}
+      />
+      <Input
+        type="text"
+        placeholder="Username"
+        onChange={(e) => setUsername(e.target.value)}
+        value={username}
+        disabled={isLoading}
+      />
+      <Input
+        type="text"
+        placeholder="Bio"
+        onChange={(e) => setBio(e.target.value)}
+        value={bio}
+        disabled={isLoading}
+      />
     </div>
   )
 
   return (
-    <Modal body={bodyContent} disabled={isLoading} isOpen={editModal.isOpen} title='Edit your profile' actionLabel='Save' onClose={editModal.onClose} onSubmit={onSubmit} />
+    <Modal
+      body={bodyContent}
+      disabled={isLoading}
+      isOpen={editModal.isOpen}
+      title="Edit your profile"
+      actionLabel="Save"
+      onClose={editModal.onClose}
+      onSubmit={onSubmit}
+    />
   )
 }

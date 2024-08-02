@@ -9,13 +9,14 @@ const UserView = () => {
   const router = useRouter()
   const { userId } = router.query
 
-  const {data: fetchedUser, isLoading} = useUser(userId as string)
+  const { data: fetchedUser, isLoading } = useUser(userId as string)
 
-  if(isLoading || !fetchedUser) {
-    return <div className='flex justify-center items-center h-full'>
-      <ClipLoader color='lightblue' size={80} />
-    </div>
-
+  if (isLoading || !fetchedUser) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <ClipLoader color="lightblue" size={80} />
+      </div>
+    )
   }
   return (
     <>
