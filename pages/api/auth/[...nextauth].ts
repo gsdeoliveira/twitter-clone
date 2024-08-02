@@ -2,10 +2,11 @@ import bcrypt from 'bcrypt'
 import NextAuth from 'next-auth'
 import CredentialsProviders from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import type { AuthOptions } from 'next-auth'
 
 import prisma from '@/libs/prismadb'
 
-export default NextAuth({
+export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProviders({
@@ -37,7 +38,6 @@ export default NextAuth({
           throw new Error('Invalid credentials')
         }
 
-
         console.log('111', process.env.NEXTAUTH_JWT_SECRET)
         console.log('222', process.env.NEXTAUTH_SECRET)
         return user
@@ -53,4 +53,6 @@ export default NextAuth({
     secret: process.env.NEXTAUTH_JWT_SECRET,
   },
   secret: process.env.NEXTAUTH_SECRET,
-})
+}
+
+export default NextAuth(authOptions)
