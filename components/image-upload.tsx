@@ -25,7 +25,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
   )
 
   const handleDrop = useCallback(
-    (files: any) => {
+    (files: Array<Blob>) => {
+      console.log(typeof files)
       const file = files[0]
       const reader = new FileReader()
 
