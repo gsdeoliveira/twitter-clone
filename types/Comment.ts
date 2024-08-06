@@ -1,7 +1,7 @@
 import { Post } from './Post'
 import { User } from './User'
 
-export type Comment = {
+export type Comment = { //teste
   id: string
   body: string
   createdAt: string
