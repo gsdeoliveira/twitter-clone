@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '@/libs/prismadb'
+import { User } from '@/types/User'
 
 export default async function handler(
   req: NextApiRequest,

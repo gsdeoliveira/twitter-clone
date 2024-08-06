@@ -9,7 +9,11 @@ import { Input } from '../input'
 import { ImageUpload } from '../image-upload'
 
 export const EditModal = () => {
+  
   const { data: currentUser } = useCurrentUser()
+
+  if(!currentUser) return null
+
   const { mutate: mutateFetchedUser } = useUser(currentUser?.id)
   const editModal = useEditModal()
 
@@ -20,11 +24,11 @@ export const EditModal = () => {
   const [bio, setBio] = useState('')
 
   useEffect(() => {
-    setProfileImage(currentUser?.profileImage)
-    setCoverImage(currentUser?.coverImage)
-    setName(currentUser?.name)
-    setUsername(currentUser?.username)
-    setBio(currentUser?.bio)
+    setProfileImage(currentUser?.profileImage ? currentUser?.profileImage : '')
+    setCoverImage(currentUser?.coverImage ? currentUser?.coverImage : '')
+    setName(currentUser?.name ? currentUser?.name : '')
+    setUsername(currentUser?.username ? currentUser?.username : '')
+    setBio(currentUser?.bio ? currentUser?.bio : '')
   }, [
     currentUser?.profileImage,
     currentUser?.coverImage,

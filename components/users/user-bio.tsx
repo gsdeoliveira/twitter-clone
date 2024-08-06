@@ -52,7 +52,7 @@ export const UserBio: React.FC<UserBioProps> = ({userId}) => {
             <p className='text-neutral-500'>Following</p>
           </div>
           <div className='flex items-center gap-1'>
-            <p className='text-white'>{fetchedUser?.followersCount || 0}</p>
+            <p className='text-white'>{fetchedUser?.followingIds || 0}</p>
             <p className='text-neutral-500'>Followers</p>
           </div>
         </div>
