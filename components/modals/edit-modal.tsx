@@ -9,12 +9,9 @@ import { Input } from '../input'
 import { ImageUpload } from '../image-upload'
 
 export const EditModal = () => {
-  
   const { data: currentUser } = useCurrentUser()
 
-  if(!currentUser) return null
-
-  const { mutate: mutateFetchedUser } = useUser(currentUser?.id)
+  const { mutate: mutateFetchedUser } = useUser(currentUser?.id || '')
   const editModal = useEditModal()
 
   const [profileImage, setProfileImage] = useState('')
