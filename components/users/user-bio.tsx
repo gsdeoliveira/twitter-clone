@@ -6,6 +6,7 @@ import { format } from 'date-fns'
 import { useMemo } from 'react'
 import { Button } from '../button'
 import { useEditModal } from '@/hooks/useEditModal'
+import useFollow from '@/hooks/useFollow'
 
 interface UserBioProps {
   userId: string
@@ -16,6 +17,8 @@ export const UserBio: React.FC<UserBioProps> = ({ userId }) => {
   const { data: fetchedUser } = useUser(userId)
 
   const editModal = useEditModal()
+
+  const { isFollowing, toggleFollow } = useFollow(userId)
 
   const createdAt = useMemo(() => {
     if (!fetchedUser?.createdAt) {
@@ -31,7 +34,12 @@ export const UserBio: React.FC<UserBioProps> = ({ userId }) => {
         {currentUser?.id === userId ? (
           <Button secondary label="Edit" onClick={editModal.onOpen} />
         ) : (
-          <Button secondary label="Follow" onClick={() => {}} />
+          <Button
+            secondary={!isFollowing}
+            outline={isFollowing}
+            label={isFollowing ? 'Unfollow' : 'Follow'}
+            onClick={toggleFollow}
+          />
         )}
       </div>
       <div className="mt-8 px-4">
@@ -54,7 +62,7 @@ export const UserBio: React.FC<UserBioProps> = ({ userId }) => {
             <p className="text-neutral-500">Following</p>
           </div>
           <div className="flex items-center gap-1">
-            <p className="text-white">{fetchedUser?.followingIds || 0}</p>
+            <p className="text-white">{fetchedUser?.followersCount || 0}</p>
             <p className="text-neutral-500">Followers</p>
           </div>
         </div>
