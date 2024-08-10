@@ -3,8 +3,10 @@ import { formatDistanceToNowStrict } from 'date-fns'
 import { useRouter } from 'next/router'
 import { useCallback, useMemo } from 'react'
 import { Avatar } from '../avatar'
-import { AiOutlineHeart, AiOutlineMessage } from 'react-icons/ai'
+import { AiOutlineHeart, AiFillHeart, AiOutlineMessage } from 'react-icons/ai'
 import { PostWithRelations } from '@/types'
+import useLike from '@/hooks/useLike'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 interface PostItemProps {
   post: PostWithRelations
@@ -13,6 +15,12 @@ interface PostItemProps {
 export const PostItem: React.FC<PostItemProps> = ({ post }) => {
   const router = useRouter()
   const loginModal = useLoginModal()
+
+  const { data: currentUser } = useCurrentUser()
+  const { hasLiked, toggleLike } = useLike({
+    postId: post.id,
+    userId: post.userId,
+  })
 
   const goToUser = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -31,9 +39,13 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
     (e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation()
 
-      loginModal.onOpen()
+      if (!currentUser) {
+        return loginModal.onOpen()
+      }
+
+      toggleLike()
     },
-    [loginModal],
+    [loginModal, currentUser, toggleLike],
   )
 
   const createdAt = useMemo(() => {
@@ -43,6 +55,8 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
 
     return formatDistanceToNowStrict(new Date(post.createdAt))
   }, [post.createdAt])
+
+  const LikeIcon = hasLiked ? AiFillHeart : AiOutlineHeart
 
   console.log(post)
 
@@ -79,7 +93,7 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
               onClick={onLike}
               className="flex items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-red-500"
             >
-              <AiOutlineHeart size={20} />
+              <LikeIcon size={20} color={hasLiked ? 'red' : ''} />
               <p>{post.likedIds?.length || 0}</p>
             </div>
           </div>
