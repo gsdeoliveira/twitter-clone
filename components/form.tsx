@@ -8,6 +8,7 @@ import toast from 'react-hot-toast'
 import axios from 'axios'
 import { Button } from './button'
 import { Avatar } from './avatar'
+import { usePost } from '@/hooks/usePost'
 
 interface FormProps {
   placeholder: string
@@ -25,6 +26,7 @@ export const Form: React.FC<FormProps> = ({
 
   const { data: currentUser } = useCurrentUser()
   const { mutate: mutatePosts } = usePosts()
+  const { mutate: mutatePost } = usePost(postId as string)
 
   const [body, setBody] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -33,19 +35,22 @@ export const Form: React.FC<FormProps> = ({
     try {
       setIsLoading(true)
 
-      await axios.post('/api/posts', { body })
+      const url = isComment ? `/api/comments?postId=${postId}` : '/api/posts'
+
+      await axios.post(url, { body })
 
       toast.success('Tweet Created')
 
       setBody('')
       mutatePosts()
+      mutatePost()
     } catch (error) {
       console.error(error)
       toast.error('Failed to post')
     } finally {
       setIsLoading(false)
     }
-  }, [body, mutatePosts])
+  }, [body, mutatePosts, isComment, postId, mutatePost])
 
   return (
     <div className="border-b-[1px] border-neutral-800 px-5 py-2">

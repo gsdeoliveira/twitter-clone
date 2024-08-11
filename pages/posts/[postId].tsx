@@ -1,5 +1,6 @@
 import { Form } from '@/components/form'
 import { Header } from '@/components/header'
+import { CommentFeed } from '@/components/posts/comment-feed'
 import { PostItem } from '@/components/posts/post-item'
 import { usePost } from '@/hooks/usePost'
 import { useRouter } from 'next/router'
@@ -27,6 +28,7 @@ export default function PostView() {
         isComment
         placeholder="Tweet your reply"
       />
+      <CommentFeed comments={fetchedPost?.comments} />
     </>
   )
 }
