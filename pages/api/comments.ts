@@ -27,7 +27,34 @@ export default async function handler(
       },
     })
 
-    console.log(comment)
+    try {
+      const post = await prisma.post.findUnique({
+        where: {
+          id: postId,
+        }
+      })
+
+      if(post?.userId) {
+        await prisma.notification.create({
+          data: {
+            userId: post.userId,
+            body: `${currentUser.name} replied your post`,
+          }
+        })
+
+        await prisma.user.update({
+          where: {
+            id: post.userId,
+          },
+          data: {
+            hasNotification: true
+          }
+        })
+      }
+    } catch (error) {
+      console.error(error)
+      
+    }
 
     return res.status(200).json(comment)
   } catch (error) {

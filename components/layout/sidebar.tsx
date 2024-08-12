@@ -21,6 +21,7 @@ export const Sidebar = () => {
       href: '/notifications',
       icon: BsBellFill,
       auth: true,
+      alert: currentUser?.hasNotification
     },
     {
       label: 'Profile',
@@ -28,6 +29,8 @@ export const Sidebar = () => {
       icon: FaUser,
     },
   ]
+
+  console.log(currentUser?.hasNotification)
   return (
     <div className="col-span-1 h-full px-6 py-4 pr-4">
       <div className="flex flex-col items-end">
