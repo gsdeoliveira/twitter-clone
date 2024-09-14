@@ -1,6 +1,6 @@
 import { useUsers } from '@/hooks/useUsers'
 import { Avatar } from '../avatar'
-import { User } from '@prisma/client';
+import { User } from '@prisma/client'
 
 export const FollowBar = () => {
   const { data: users = [] } = useUsers()
