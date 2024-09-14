@@ -35,15 +35,15 @@ export default async function handler(
         const post = await prisma.post.findUnique({
           where: {
             id: postId,
-          }
+          },
         })
 
-        if(post?.userId) {
+        if (post?.userId) {
           await prisma.notification.create({
             data: {
               userId: post.userId,
               body: `${currentUser.name} liked your post`,
-            }
+            },
           })
 
           await prisma.user.update({
@@ -51,13 +51,12 @@ export default async function handler(
               id: post.userId,
             },
             data: {
-              hasNotification: true
-            }
+              hasNotification: true,
+            },
           })
         }
       } catch (error) {
         console.error(error)
-        
       }
     }
 

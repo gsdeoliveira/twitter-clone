@@ -32,13 +32,13 @@ export default async function handler(
 
     if (req.method === 'POST') {
       updatedFollowingIds.push(userId)
-      
+
       try {
         await prisma.notification.create({
           data: {
             body: `${currentUser.name} followed you`,
-            userId
-          }
+            userId,
+          },
         })
 
         await prisma.user.update({
@@ -46,10 +46,9 @@ export default async function handler(
             id: userId,
           },
           data: {
-            hasNotification: true
-          }
+            hasNotification: true,
+          },
         })
-        
       } catch (error) {
         console.error(error)
       }

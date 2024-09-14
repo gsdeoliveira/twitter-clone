@@ -6,7 +6,7 @@ import { getSession } from 'next-auth/react'
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context)
 
-  if(!session) {
+  if (!session) {
     return {
       redirect: {
         destination: '/',
@@ -23,8 +23,8 @@ export async function getServerSideProps(context: NextPageContext) {
 export default function Notifications() {
   return (
     <>
-    <Header label='Notifications' showBackArrow />
-    <NotificationsFeed />
+      <Header label="Notifications" showBackArrow />
+      <NotificationsFeed />
     </>
   )
 }
